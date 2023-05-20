@@ -1,0 +1,2 @@
+class CustomerOperation:
+    pass

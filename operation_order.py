@@ -1,0 +1,2 @@
+class OrderOperation:
+    pass
