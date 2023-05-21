@@ -2,17 +2,19 @@ import random
 import re
 import string
 
-registered_customers = [...]  # Replace [...] with your actual implementation
-registered_admins = [...]  # Replace [...] with your actual implementation
 
-class UserOperation:
+
+class  UserOperation:
+    registered_customers = []  # Replace [...] with your actual implementation
+    registered_admins = []  # Replace [...] with your actual implementation
+
     def generate_unique_user_id(self):
         prefix = 'u_'
         digits = ''.join(str(random.randint(0, 9)) for _ in range(10))
         user_id = prefix + digits
         return user_id
 
-    def encrypt_password(self, user_password):
+    def encrypt_password(self,user_password):
         random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=len(user_password) * 2))
         encrypted_password = "^^"
 
@@ -22,7 +24,7 @@ class UserOperation:
         encrypted_password += "$$"
         return encrypted_password
 
-    def decrypt_password(self, encrypted_password):
+    def decrypt_password(self,encrypted_password):
         decrypted_password = ""
 
         # Removing the leading "^^" and trailing "$$"
@@ -40,10 +42,9 @@ class UserOperation:
         return decrypted_password
 
     def check_username_exist(self, user_name):
-        global registered_users
 
         # Check if the username exists in the registered users list
-        if user_name in registered_users:
+        if user_name in self.registered_customers:
             return True
         else:
             return False
@@ -70,13 +71,16 @@ class UserOperation:
 
     def login(self, user_name, user_password):
         # Check if the provided user name and password combination matches a customer
-        for customer in registered_customers:
-            if customer.user_name == user_name and customer.verify_password(user_password):
-                return customer
+        if len(self.registered_customers) != 0:
+            for customer in self.registered_customers:
+                if customer.user_name == user_name and self.decrypt_password(customer.user_password) == user_password:
+                    return customer
+
+
 
         # Check if the provided user name and password combination matches an admin
-        for admin in registered_admins:
-            if admin.user_name == user_name and admin.verify_password(user_password):
+        for admin in self.registered_admins:
+            if admin.user_name == user_name and self.decrypt_password(admin.user_password) == user_password:
                 return admin
 
         # If no matching customer or admin found, return None

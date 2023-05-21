@@ -1,0 +1,1 @@
+{'user_id': 'u_3802013660', 'user_name': 'hasheni', 'user_password': '^^lnHvbaS7syVhvDeilngqiAx1KK2m23$$', 'user_register_time': '21-05-2023_08:35:26', 'user_role': 'customer', 'user_email': 'hasheni@gmail.com', 'user_mobile': '0312345678'}
