@@ -13,10 +13,9 @@ def main():
     customer_operation = CustomerOperation()
     admin_operation.register_admin()
 
-
     admin_operation.load_registered_customers()
     #product_operation.extract_products_from_files()
-
+    admin_operation.retrieve_products()
 
     while True:
         interface.print_message("Welcome to the Online Store Management System!")
@@ -33,9 +32,9 @@ def main():
 
             if user is not None:
                 if user.user_role == "admin":
-                    admin_menu(product_operation,admin_operation, interface)
+                    admin_menu(product_operation, admin_operation, interface)
                 elif user.user_role == "customer":
-                    admin_operation.loggedUser=username
+                    admin_operation.loggedUser = username
                     customer_menu(admin_operation, interface)
             else:
                 interface.print_error_message("UserOperation.login", "Username or password incorrect")
@@ -60,7 +59,7 @@ def main():
             interface.print_error_message("Main Menu", "Invalid choice. Please try again.")
 
 
-def admin_menu(product_operation,admin_operation, interface):
+def admin_menu(product_operation, admin_operation, interface):
     while True:
         interface.print_message("Admin Menu:")
         interface.print_message("1. Show products")
@@ -80,13 +79,13 @@ def admin_menu(product_operation,admin_operation, interface):
 
         elif choice == "2":
             username = interface.get_user_input("Enter the customer's username :", 1)[0]
-            password=interface.get_user_input("Enter the user password:",1)[0]
-            userEmail =interface.get_user_input("Enter the user email:",1)[0]
-            userMobile = interface.get_user_input("Enter the user mobile:",1)[0]
+            password = interface.get_user_input("Enter the user password:", 1)[0]
+            userEmail = interface.get_user_input("Enter the user email:", 1)[0]
+            userMobile = interface.get_user_input("Enter the user mobile:", 1)[0]
 
-            success,err=admin_operation.register_customer(username, password, userEmail, userMobile)
+            success, err = admin_operation.register_customer(username, password, userEmail, userMobile)
             if not success:
-                interface.print_error_message("Validation Error",err)
+                interface.print_error_message("Validation Error", err)
             else:
                 interface.print_message("Customer added successfully!")
 
@@ -143,17 +142,21 @@ def customer_menu(admin_operation, interface):
                 interface.print_error_message("Customer Profile", "Empty")
             else:
                 interface.print_object(profile)
-            attribute,name = interface.get_user_input("Enter your attribute name & new one:", 2)
-            if admin_operation.update_profile(attribute,name,profile):
+            attribute, name = interface.get_user_input("Enter your attribute name & new one:", 2)
+            if admin_operation.update_profile(attribute, name, profile):
                 interface.print_message("Profile updated successfully!")
             else:
                 interface.print_error_message("Customer Update", "Validation Error")
 
         elif choice == "3":
-            keyword = \
-            interface.get_user_input("Enter a keyword to search for products (leave blank for all products):", 1)[0]
-            products = admin_operation.get_product_list(keyword)
-            show_list("customer", "Product", products, interface)
+            keyword = interface.get_user_input("Enter a keyword to search for products (leave blank for all products):", 1)[0]
+            if keyword == "":
+                products = admin_operation.get_product_list(1)
+                show_list("customer", "Product", products, interface)
+
+            else:
+                products = admin_operation.get_product_list_by_keyword(keyword)
+                interface.print_object_normal(products)
 
         elif choice == "4":
             orders = admin_operation.get_history_orders()

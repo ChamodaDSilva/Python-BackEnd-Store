@@ -2,9 +2,9 @@ import random
 import re
 import string
 
+from operation_order import OrderOperation
 
-
-class  UserOperation:
+class  UserOperation(OrderOperation):
     registered_customers = []  # Replace [...] with your actual implementation
     registered_admins = []  # Replace [...] with your actual implementation
 

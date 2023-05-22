@@ -71,3 +71,8 @@ class IOInterface:
     @staticmethod
     def print_object(target_object):
         print(str(target_object))
+
+    @staticmethod
+    def print_object_normal(objects):
+        for i, obj in enumerate(objects, start=1):
+            print(f"{i}. {obj}")

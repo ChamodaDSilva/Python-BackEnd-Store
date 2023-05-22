@@ -6,9 +6,10 @@ import matplotlib.pyplot as plt
 
 from model_order import Order
 from model_product import Product
+from opreation_product import ProductOperation
 
 
-class OrderOperation:
+class OrderOperation(ProductOperation):
     def generate_unique_order_id(self):
         # Read the existing orders from the file
         with open('data/orders.txt', 'r') as file:
