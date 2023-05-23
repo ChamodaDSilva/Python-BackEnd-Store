@@ -8,6 +8,7 @@ from operation_user import UserOperation
 
 class CustomerOperation(UserOperation):
     loggedUser = ""
+    customerId =0
     def get_profile(self):
         for customer in self.registered_customers:
             if customer.user_name == self.loggedUser:
@@ -67,6 +68,7 @@ class CustomerOperation(UserOperation):
 
         # Append the new_customer to registered_customers list
         self.registered_customers.append(new_customer)
+        self.customer_list.append(new_customer)
 
         # Save the customer info into the data/users.txt file
         with open('data/users.txt', 'a') as file:
@@ -114,6 +116,7 @@ class CustomerOperation(UserOperation):
             if customer.user_id == customer_id:
                 # Remove the customer from the list
                 self.registered_customers.remove(customer)
+                self.customer_list.remove(customer)
 
                 # Write the updated list of customers back to the file
                 with open('data/users.txt', 'w') as file:
@@ -173,3 +176,5 @@ class CustomerOperation(UserOperation):
                     customer_data['user_mobile']
                 )
                 self.registered_customers.append(customer)
+                self.customer_list.append(customer)
+        return  self.registered_customers

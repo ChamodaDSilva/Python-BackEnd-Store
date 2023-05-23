@@ -16,6 +16,7 @@ def main():
     admin_operation.load_registered_customers()
     #product_operation.extract_products_from_files()
     admin_operation.retrieve_products()
+    admin_operation.read_orders_from_file_s()
 
     while True:
         interface.print_message("Welcome to the Online Store Management System!")
@@ -35,6 +36,7 @@ def main():
                     admin_menu(product_operation, admin_operation, interface)
                 elif user.user_role == "customer":
                     admin_operation.loggedUser = username
+                    admin_operation.customerId=user.user_id
                     customer_menu(admin_operation, interface)
             else:
                 interface.print_error_message("UserOperation.login", "Username or password incorrect")
@@ -94,19 +96,20 @@ def admin_menu(product_operation, admin_operation, interface):
             show_list("admin", "Customer", customers, interface)
 
         elif choice == "4":
-            orders = admin_operation.get_order_list()
+            orders = admin_operation.get_order_list(0,1)
             show_list("admin", "Order", orders, interface)
 
         elif choice == "5":
-            admin_operation.generate_test_data()
+            admin_operation.generate_test_order_data()
             interface.print_message("Test data generated successfully!")
 
         elif choice == "6":
-            admin_operation.generate_all_statistical_figures()
+            admin_operation.generate_all_customers_consumption_figure()
             interface.print_message("All statistical figures generated successfully!")
 
         elif choice == "7":
-            admin_operation.delete_all_data()
+            admin_operation.delete_all_orders()
+            admin_operation.delete_all_customers()
             interface.print_message("All data deleted successfully!")
 
         elif choice == "8":
@@ -159,11 +162,11 @@ def customer_menu(admin_operation, interface):
                 interface.print_object_normal(products)
 
         elif choice == "4":
-            orders = admin_operation.get_history_orders()
+            orders = admin_operation.get_order_list(admin_operation.customerId,1)
             show_list("customer", "Order", orders, interface)
 
         elif choice == "5":
-            admin_operation.generate_all_consumption_figures()
+            admin_operation.generate_single_customer_consumption_figure(admin_operation.customerId)
             interface.print_message("All consumption figures generated successfully!")
 
         elif choice == "6":

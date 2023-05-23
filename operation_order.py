@@ -1,3 +1,4 @@
+import ast
 import math
 import random
 import time
@@ -10,6 +11,8 @@ from opreation_product import ProductOperation
 
 
 class OrderOperation(ProductOperation):
+    order_list =[]
+    customer_list =[]
     def generate_unique_order_id(self):
         # Read the existing orders from the file
         with open('data/orders.txt', 'r') as file:
@@ -69,8 +72,11 @@ class OrderOperation(ProductOperation):
         # Read the existing orders from the file
         orders = self.read_orders_from_file()
 
-        # Filter orders for the given customer_id
-        customer_orders = [order for order in orders if order['customer_id'] == customer_id]
+        if customer_id ==0:
+            customer_orders = [order for order in orders]
+        else:
+            # Filter orders for the given customer_id
+            customer_orders = [order for order in orders if order['customer_id'] == customer_id]
 
         # Calculate the total number of pages
         total_pages = math.ceil(len(customer_orders) / 10)
@@ -93,11 +99,8 @@ class OrderOperation(ProductOperation):
             return []
 
     def generate_test_order_data(self):
-        # Get the list of customers and products
-        global registered_customers
-        global product_data
-        customers = registered_customers
-        products = product_data
+        customers = self.customer_list
+        products = self.product_data
 
         # Generate orders for each customer
         for customer in customers:
@@ -110,7 +113,7 @@ class OrderOperation(ProductOperation):
                 create_time = self.generate_random_order_time()
 
                 # Create the order
-                self.create_an_order(customer.user_id, product['pro_id'], create_time)
+                self.create_an_order(customer.user_id, product.pro_id, create_time)
 
     # def generate_unique_order_id(self):
     #     # Implement this method to generate a unique order id
@@ -119,26 +122,41 @@ class OrderOperation(ProductOperation):
 
     def generate_random_order_time(self):
         # Generate a random order time scattered into different months of the year
-        year = datetime.datetime.now().year
+        year = datetime.now().year
         month = random.randint(1, 12)
         day = random.randint(1, 28)
         hour = random.randint(0, 23)
         minute = random.randint(0, 59)
         second = random.randint(0, 59)
 
-        order_time = datetime.datetime(year, month, day, hour, minute, second)
+        order_time = datetime(year, month, day, hour, minute, second)
         return order_time
+
+    # def read_orders_from_file_s(self):
+    #     # Read the orders from the file and return a list of order objects
+    #
+    #     with open('data/orders.txt', 'r') as file:
+    #         for line in file:
+    #             order_data = line.strip().split(',')
+    #             # Create an Order object based on the order_data and add it to the list
+    #             order = Order(order_data[0], order_data[1], order_data[2], order_data[3])
+    #             self.order_list.append(order)
+    #     return self.order_list
 
     def read_orders_from_file_s(self):
         # Read the orders from the file and return a list of order objects
-        orders = []
+        self.order_list = []  # Clear the order list before reading new orders
+
         with open('data/orders.txt', 'r') as file:
             for line in file:
-                order_data = line.strip().split(',')
+                order_data = ast.literal_eval(line.strip())
                 # Create an Order object based on the order_data and add it to the list
-                order = Order(order_data[0], order_data[1], order_data[2], order_data[3])
-                orders.append(order)
-        return orders
+                order = Order(order_data['order_id'], order_data['customer_id'], order_data['product_id'],
+                              order_data['create_time'])
+                order.price=self.get_product_by_id(order_data['product_id']).pro_raw_price
+                self.order_list.append(order)
+
+        return self.order_list
 
     def write_orders_to_file_s(self, orders):
         # Write the list of orders to the file
@@ -149,7 +167,7 @@ class OrderOperation(ProductOperation):
 
     def generate_single_customer_consumption_figure(self, customer_id):
         # Read all orders from the file
-        orders = self.read_orders_from_file_s()
+        orders = self. read_orders_from_file_s()
 
         # Filter orders for the given customer_id
         customer_orders = [order for order in orders if order.user_id == customer_id]
@@ -157,34 +175,39 @@ class OrderOperation(ProductOperation):
         # Calculate the monthly consumption
         monthly_consumption = {}
         for order in customer_orders:
-            month = order.order_time.month
+            order_time = datetime.strptime(order.order_time, "%Y-%m-%d %H:%M:%S")
+            month = order_time.month
             if month in monthly_consumption:
                 monthly_consumption[month] += order.price
             else:
                 monthly_consumption[month] = order.price
 
-        # Sort the monthly consumption by month
+            # Sort the monthly consumption by month
         sorted_monthly_consumption = sorted(monthly_consumption.items())
 
         # Extract the months and consumption values
         months = [month for month, _ in sorted_monthly_consumption]
         consumption = [consumption for _, consumption in sorted_monthly_consumption]
 
-        # Create a bar chart to visualize the monthly consumption
-        plt.bar(months, consumption)
+        # Create a line chart to visualize the monthly consumption for all customers
+        plt.plot(months, consumption, marker='o')
         plt.xlabel('Month')
         plt.ylabel('Consumption')
-        plt.title('Monthly Consumption for Customer {}'.format(customer_id))
+        plt.title('Monthly Consumption for All Customers')
         plt.show()
+
+    from datetime import datetime
 
     def generate_all_customers_consumption_figure(self):
         # Read all orders from the file
-        orders = self.read_orders_from_file_s()
+        orders = self.order_list
+        print(orders[0])
 
         # Calculate the monthly consumption for all customers
         monthly_consumption = {}
         for order in orders:
-            month = order.order_time.month
+            order_time = datetime.strptime(order.order_time, "%Y-%m-%d %H:%M:%S")
+            month = order_time.month
             if month in monthly_consumption:
                 monthly_consumption[month] += order.price
             else:
