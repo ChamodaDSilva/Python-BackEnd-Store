@@ -193,7 +193,8 @@ class OrderOperation(ProductOperation):
         plt.plot(months, consumption, marker='o')
         plt.xlabel('Month')
         plt.ylabel('Consumption')
-        plt.title('Monthly Consumption for All Customers')
+        plt.title('Monthly Consumption for Customer')
+        plt.savefig('data/figure/self_consumption.png')
         plt.show()
 
     from datetime import datetime
@@ -225,6 +226,7 @@ class OrderOperation(ProductOperation):
         plt.xlabel('Month')
         plt.ylabel('Consumption')
         plt.title('Monthly Consumption for All Customers')
+        plt.savefig('data/figure/monthly_consumption.png')
         plt.show()
 
     def generate_all_top_10_best_sellers_figure(self):
@@ -247,6 +249,7 @@ class OrderOperation(ProductOperation):
         plt.ylabel('Sales Count')
         plt.title('Top 10 Best-Selling Products')
         plt.xticks(rotation=90)
+        plt.savefig('data/figure/top_sell_consumption.png')
         plt.show()
 
     def read_products_from_file(self):
