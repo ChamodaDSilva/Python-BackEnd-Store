@@ -1,2 +1,1 @@
-{'user_id': 'u_3802013660', 'user_name': 'hasheni', 'user_password': '^^lnHvbaS7syVhvDeilngqiAx1KK2m23$$', 'user_register_time': '21-05-2023_08:35:26', 'user_role': 'customer', 'user_email': 'hasheni@gmail.com', 'user_mobile': '0312345678'}
-{'user_id': 'u_4132025874', 'user_name': 'chamoda', 'user_password': '^^SlCVvhzjaRMm2zojSdeGa5k1rS24t3$$', 'user_register_time': '23-05-2023_07:12:31', 'user_role': 'customer', 'user_email': 'chamoda@gmail.com', 'user_mobile': '0312345678'}
+{'user_id': 'u_8128482440', 'user_name': 'hasheni', 'user_password': '^^RLHWCaxjsvphUTeaVnOOisF1s42yH3$$', 'user_register_time': '24-05-2023_07:41:23', 'user_role': 'customer', 'user_email': 'hasheni@gmail.com', 'user_mobile': '0312345678'}

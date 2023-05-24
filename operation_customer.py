@@ -148,7 +148,8 @@ class CustomerOperation(UserOperation):
         global registered_customers
 
         # Clear the list of registered users
-        registered_customers.clear()
+        self.registered_customers.clear()
+        self.order_list.clear()
 
         # Clear the contents of the data/users.txt file
         with open('data/users.txt', 'w') as file:

@@ -7,16 +7,17 @@ from io_interface import IOInterface
 
 def main():
     interface = IOInterface()
-    user_operation = UserOperation()
     admin_operation = AdminOperation()
     product_operation = ProductOperation()
-    customer_operation = CustomerOperation()
-    admin_operation.register_admin()
 
+
+
+    admin_operation.load_all_admins()
     admin_operation.load_registered_customers()
     #product_operation.extract_products_from_files()
     admin_operation.retrieve_products()
     admin_operation.read_orders_from_file_s()
+    admin_operation.register_admin()
 
     while True:
         interface.print_message("Welcome to the Online Store Management System!")
@@ -28,7 +29,8 @@ def main():
         choice = interface.get_user_input("Enter your choice:", 1)[0]
 
         if choice == "1":
-            username, password = interface.get_user_input("Enter your username and password:", 2)
+            username = interface.get_user_input("Enter your username:", 1)[0]
+            password = interface.get_user_input("Enter your password:", 2)[0]
             user = admin_operation.login(username, password)
 
             if user is not None:

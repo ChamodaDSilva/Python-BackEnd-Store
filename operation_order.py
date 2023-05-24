@@ -4,7 +4,6 @@ import random
 import time
 from datetime import datetime
 import matplotlib.pyplot as plt
-
 from model_order import Order
 from model_product import Product
 from opreation_product import ProductOperation
@@ -24,7 +23,7 @@ class OrderOperation(ProductOperation):
 
         return order_id_str
 
-    def create_an_order(self, customer_id, product_id, create_time=None):
+    def create_an_order(self, customer_id, product_id, create_time=None,price=0):
         # Generate a unique order ID
         order_id = self.generate_unique_order_id()
 
@@ -34,6 +33,7 @@ class OrderOperation(ProductOperation):
 
         # Create the order data
         order_data = f"{{'order_id':'{order_id}', 'customer_id':'{customer_id}', 'product_id':'{product_id}', 'create_time':'{create_time}'}}\n"
+        order =Order(order_id,customer_id,product_id,create_time,price)
 
         try:
             # Append the order data to the file
@@ -113,7 +113,7 @@ class OrderOperation(ProductOperation):
                 create_time = self.generate_random_order_time()
 
                 # Create the order
-                self.create_an_order(customer.user_id, product.pro_id, create_time)
+                self.create_an_order(customer.user_id, product.pro_id, create_time,product.pro_raw_price)
 
     # def generate_unique_order_id(self):
     #     # Implement this method to generate a unique order id
@@ -200,8 +200,7 @@ class OrderOperation(ProductOperation):
 
     def generate_all_customers_consumption_figure(self):
         # Read all orders from the file
-        orders = self.order_list
-        print(orders[0])
+        orders = self.order_list.copy()
 
         # Calculate the monthly consumption for all customers
         monthly_consumption = {}
@@ -215,6 +214,7 @@ class OrderOperation(ProductOperation):
 
         # Sort the monthly consumption by month
         sorted_monthly_consumption = sorted(monthly_consumption.items())
+
 
         # Extract the months and consumption values
         months = [month for month, _ in sorted_monthly_consumption]
@@ -238,8 +238,8 @@ class OrderOperation(ProductOperation):
         top_10_best_sellers = sorted_products[:10]
 
         # Extract the product names and their sales count
-        product_names = [product.name for product in top_10_best_sellers]
-        sales_count = [product.sales_count for product in top_10_best_sellers]
+        product_names = [product.pro_name for product in top_10_best_sellers]
+        sales_count = [product.pro_likes_count for product in top_10_best_sellers]
 
         # Create a bar chart to visualize the top 10 best-selling products
         plt.bar(product_names, sales_count)
