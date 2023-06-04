@@ -78,8 +78,17 @@ def admin_menu(product_operation, admin_operation, interface):
         choice = interface.get_user_input("Enter your choice:", 1)[0]
 
         if choice == "1":
-            products = product_operation.get_product_list(1)
+            page =1
+            products = product_operation.get_product_list(page)
             show_list("admin", "Product", products, interface)
+            choice = interface.get_user_input("Do you want to see next page:(yes/no)", 1)[0]
+            while choice =="yes":
+                page+=1
+                products = product_operation.get_product_list(page)
+                show_list("admin", "Product", products, interface)
+                choice = interface.get_user_input("Do you want to see next page:(yes/no)", 1)[0]
+
+
 
         elif choice == "2":
             username = interface.get_user_input("Enter the customer's username :", 1)[0]
@@ -98,8 +107,15 @@ def admin_menu(product_operation, admin_operation, interface):
             show_list("admin", "Customer", customers, interface)
 
         elif choice == "4":
-            orders = admin_operation.get_order_list(0,1)
+            page =1
+            orders = admin_operation.get_order_list(0,page)
             show_list("admin", "Order", orders, interface)
+            choice = interface.get_user_input("Do you want to see next page:(yes/no)", 1)[0]
+            while choice == "yes":
+                page += 1
+                orders = admin_operation.get_order_list(0, page)
+                show_list("admin", "Order", orders, interface)
+                choice = interface.get_user_input("Do you want to see next page:(yes/no)", 1)[0]
 
         elif choice == "5":
             admin_operation.generate_test_order_data()
@@ -130,7 +146,8 @@ def customer_menu(admin_operation, interface):
         interface.print_message("3. Show products")
         interface.print_message("4. Show history orders")
         interface.print_message("5. Generate all consumption figures")
-        interface.print_message("6. Logout")
+        interface.print_message("6. Get product using product id")
+        interface.print_message("7. Logout")
 
         choice = interface.get_user_input("Enter your choice:", 1)[0]
 
@@ -164,14 +181,25 @@ def customer_menu(admin_operation, interface):
                 interface.print_object_normal(products)
 
         elif choice == "4":
-            orders = admin_operation.get_order_list(admin_operation.customerId,1)
+            page=1
+            orders = admin_operation.get_order_list(admin_operation.customerId,page)
             show_list("customer", "Order", orders, interface)
+            choice = interface.get_user_input("Do you want to see next page:(yes/no)", 1)[0]
+            while choice == "yes":
+                page += 1
+                orders = admin_operation.get_order_list(admin_operation.customerId, page)
+                show_list("customer", "Order", orders, interface)
+                choice = interface.get_user_input("Do you want to see next page:(yes/no)", 1)[0]
 
         elif choice == "5":
             admin_operation.generate_single_customer_consumption_figure(admin_operation.customerId)
             interface.print_message("All consumption figures generated successfully!")
 
         elif choice == "6":
+            p_id = interface.get_user_input("Enter the product id:", 1)[0]
+            interface.print_message(admin_operation.get_product_by_id(p_id))
+
+        elif choice == "7":
             interface.print_message("Logged out successfully!")
             break
 
