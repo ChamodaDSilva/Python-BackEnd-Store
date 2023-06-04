@@ -73,7 +73,10 @@ def admin_menu(product_operation, admin_operation, interface):
         interface.print_message("5. Generate test data")
         interface.print_message("6. Generate all statistical figures")
         interface.print_message("7. Delete all data")
-        interface.print_message("8. Logout")
+        interface.print_message("8. Delete customer using customer id")
+        interface.print_message("9. Delete order using order id")
+        interface.print_message("10. Delete product using product id")
+        interface.print_message("11. Logout")
 
         choice = interface.get_user_input("Enter your choice:", 1)[0]
 
@@ -131,6 +134,26 @@ def admin_menu(product_operation, admin_operation, interface):
             interface.print_message("All data deleted successfully!")
 
         elif choice == "8":
+            cust_id = interface.get_user_input("Customer ID:", 1)[0]
+            if admin_operation.delete_customer(cust_id):
+                interface.print_message("deleted successfully!")
+            else:
+                interface.print_message("not found!")
+
+        elif choice == "9":
+            order_id = interface.get_user_input("Order ID:", 1)[0]
+            if admin_operation.delete_order(order_id):
+                interface.print_message("deleted successfully!")
+            else:
+                interface.print_message("not found!")
+        elif choice == "10":
+            pro_id = interface.get_user_input("Product ID:", 1)[0]
+            if admin_operation.delete_product(pro_id):
+                interface.print_message("deleted successfully!")
+            else:
+                interface.print_message("not found!")
+
+        elif choice == "11":
             interface.print_message("Logged out successfully!")
             break
 

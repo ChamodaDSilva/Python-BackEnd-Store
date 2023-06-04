@@ -1,3 +1,2 @@
 {'user_id': 'u_8128482440', 'user_name': 'hasheni', 'user_password': '^^RLHWCaxjsvphUTeaVnOOisF1s42yH3$$', 'user_register_time': '24-05-2023_07:41:23', 'user_role': 'customer', 'user_email': 'hasheni@gmail.com', 'user_mobile': '0312345678'}
-{'user_id': 'u_3354925362', 'user_name': 'Ishan', 'user_password': '^^ccI05sd5hE2amCn0A1s92Bp3$$', 'user_register_time': '29-05-2023_21:56:11', 'user_role': 'customer', 'user_email': 'ishan@gmail.com', 'user_mobile': '0312345678'}
 {'user_id': 'u_7438740666', 'user_name': 'isuru', 'user_password': '^^FcI6PspUuxLrZLuwi1YS2Wk3$$', 'user_register_time': '30-05-2023_21:22:29', 'user_role': 'customer', 'user_email': 'isu@gmail.com', 'user_mobile': '0312345678'}
